@@ -12,7 +12,7 @@ type User struct {
     PasswordHash    string     `json:"-" db:"password_hash"`
     FullName        *string    `json:"full_name" db:"full_name"`
     Phone           *string    `json:"phone" db:"phone"`
-    IsActive        bool       `json:"is_active" db:"is_active"`
+    Status        string       `json:"status" db:"status"`
     EmailVerifiedAt *time.Time `json:"email_verified_at" db:"email_verified_at"`
     CreatedAt       time.Time  `json:"created_at" db:"created_at"`
     UpdatedAt       time.Time  `json:"updated_at" db:"updated_at"`

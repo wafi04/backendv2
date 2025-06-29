@@ -6,7 +6,7 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     full_name VARCHAR(100),
     phone VARCHAR(20),
-    is_active BOOLEAN DEFAULT true,
+    status VARCHAR(20),
     email_verified_at TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -47,13 +47,13 @@ CREATE TABLE user_roles (
     assigned_by VARCHAR(200) REFERENCES users(id), -- siapa yang assign role ini
     assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     expires_at TIMESTAMP NULL, -- role bisa expired (optional)
-    is_active BOOLEAN DEFAULT true,
+    status VARCHAR(20), -- status role (active, inacti ve, expired)
     UNIQUE(user_id, role_id)
 );
 
 -- Tabel Sessions
 CREATE TABLE sessions (
-    id VARCHAR(200) PRIMARY KEY DEFAULT gen_random_uuid(),
+    id VARCHAR(200) PRIMARY KEY,
     user_id VARCHAR(200) REFERENCES users(id) ON DELETE CASCADE,
     token_hash VARCHAR(255) NOT NULL,
     device_info TEXT,
@@ -67,7 +67,7 @@ CREATE TABLE sessions (
 
 -- Tabel Verification Tokens (untuk email verification, password reset, etc)
 CREATE TABLE verification_tokens (
-    id VARCHAR(200) PRIMARY KEY DEFAULT gen_random_uuid(),
+    id VARCHAR(200) PRIMARY KEY,
     user_id VARCHAR(200) REFERENCES users(id) ON DELETE CASCADE,
     token_hash VARCHAR(255) NOT NULL,
     token_type VARCHAR(50) NOT NULL, -- email_verification, password_reset, etc
